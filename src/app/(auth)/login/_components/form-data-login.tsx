@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+// import Link from "next/link";
 import { useState } from "react";
 import { Input } from "@/components";
 import { Button } from "@/components/ui";
@@ -52,8 +52,7 @@ export function FormDataLogin() {
 
         <Input.Root>
           <Input.Prefix>
-            <Input.Field
-              type="password"
+            <Input.PasswordField
               placeholder="Senha"
               disabled={isPending}
               {...register("password")}

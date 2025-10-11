@@ -1,5 +1,6 @@
-import { ReactNode, InputHTMLAttributes } from "react";
+import { ReactNode, InputHTMLAttributes, useState } from "react";
 import { twMerge } from "tailwind-merge";
+import { Eye, EyeSlash } from "phosphor-react";
 
 // ---- ROOT ----
 interface InputRootProps {
@@ -75,6 +76,28 @@ function Field({ className, ...props }: InputFieldProps) {
   );
 }
 
+// ---- PASSWORD FIELD (com olhinho) ----
+function PasswordField({ className, ...props }: InputFieldProps) {
+  const [showPassword, setShowPassword] = useState(false);
+
+  return (
+    <div className="relative w-full">
+      <Field
+        {...props}
+        type={showPassword ? "text" : "password"}
+        className={twMerge("pr-10", className)}
+      />
+      <button
+        type="button"
+        onClick={() => setShowPassword(!showPassword)}
+        className="absolute right-3 top-1/2 -translate-y-1/2 text-[#B5B9BE] cursor-pointer"
+      >
+        {showPassword ? <EyeSlash size={20} /> : <Eye size={20} />}
+      </button>
+    </div>
+  );
+}
+
 // ---- ERROR MESSAGE ----
 interface InputErrorMessagesProps {
   errorMessage?: string;
@@ -93,5 +116,6 @@ export const Input = {
   Label,
   Prefix,
   Field,
+  PasswordField, // ✅ novo campo de senha
   ErrorMessages,
 };

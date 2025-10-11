@@ -23,8 +23,8 @@ export function useLoginMutate() {
   const router = useRouter();
 
   const { mutate, isPending } = useMutation<
-    string,
-    AxiosError<{ message: string }>,
+    string, 
+    AxiosError<{ error: string }>, 
     { email: string; password: string }
   >({
     mutationFn: postDataLogin,
@@ -39,12 +39,10 @@ export function useLoginMutate() {
           sameSite: "Strict",
           expires: days,
         });
-
-        // router.push(homeByRole(decoded.role));
       }
     },
     onError: (error) => {
-      const apiMessage = error.response?.data?.error;
+      const apiMessage = error.response?.data?.error; 
       const description = getFriendlyErrorMessage(apiMessage);
 
       toast.error("Login Inválido", {
