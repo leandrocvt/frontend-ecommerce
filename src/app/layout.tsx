@@ -1,7 +1,7 @@
 import "@/styles/globals.css";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { ReactQueryProvider } from "@/providers"; 
+import { ReactQueryProvider } from "@/providers";
 import { Toaster } from "@/components/ui";
 
 const geistSans = Geist({
@@ -31,7 +31,7 @@ export default function RootLayout({
       >
         <ReactQueryProvider>
           {children}
-             <Toaster />
+          <Toaster />
         </ReactQueryProvider>
       </body>
     </html>

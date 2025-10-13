@@ -1,0 +1,10 @@
+import axios from "axios";
+import { PathRoutesRequest } from "@/enums";
+
+export async function putDataResetPassword(data: { token: string; password: string }) {
+  const response = await axios.put(
+    `${process.env.NEXT_PUBLIC_APP_URL_BASE}${PathRoutesRequest.AUTH.NEWPASSWORD}`,
+    data
+  );
+  return response.data;
+}

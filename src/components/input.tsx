@@ -77,22 +77,37 @@ function Field({ className, ...props }: InputFieldProps) {
 }
 
 // ---- PASSWORD FIELD (com olhinho) ----
-function PasswordField({ className, ...props }: InputFieldProps) {
-  const [showPassword, setShowPassword] = useState(false);
+interface PasswordFieldProps extends InputFieldProps {
+  /** Se quiser controlar de fora */
+  isVisible?: boolean;
+  /** Se quiser mudar de fora */
+  onToggleVisibility?: () => void;
+}
+
+function PasswordField({
+  className,
+  isVisible,
+  onToggleVisibility,
+  ...props
+}: PasswordFieldProps) {
+  // controla internamente se nada for passado
+  const [internalVisible, setInternalVisible] = useState(false);
+  const visible = isVisible ?? internalVisible;
+  const toggle = onToggleVisibility ?? (() => setInternalVisible(!internalVisible));
 
   return (
     <div className="relative w-full">
       <Field
         {...props}
-        type={showPassword ? "text" : "password"}
+        type={visible ? "text" : "password"}
         className={twMerge("pr-10", className)}
       />
       <button
         type="button"
-        onClick={() => setShowPassword(!showPassword)}
+        onClick={toggle}
         className="absolute right-3 top-1/2 -translate-y-1/2 text-[#B5B9BE] cursor-pointer"
       >
-        {showPassword ? <EyeSlash size={20} /> : <Eye size={20} />}
+        {visible ? <EyeSlash size={20} /> : <Eye size={20} />}
       </button>
     </div>
   );

@@ -1,18 +1,18 @@
 "use client";
 
-// import Link from "next/link";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Input } from "@/components";
 import { Button } from "@/components/ui";
 import { useForm } from "react-hook-form";
 import { LoaderCircle } from "lucide-react";
 import { useLoginMutate } from "@/hooks/auth";
-// import { ForgetPassword } from "./forget-password";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, LoginFormValues } from "@/types/auth";
 
 export function FormDataLogin() {
+  const router = useRouter();
   const { mutate, isPending } = useLoginMutate();
+
   const {
     register,
     handleSubmit,
@@ -20,21 +20,20 @@ export function FormDataLogin() {
   } = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
   });
-  const [isForgetOpen, setIsForgetOpen] = useState(false);
 
   const onSubmit = (data: LoginFormValues) => {
     mutate(data);
   };
 
   return (
-    <div className="w-[400px] py-[60px] rounded-[10px] md:border-2 border-[#F8F8F6]">
+    <div className="w:full md:w-[400px] py-[60px] rounded-[10px] md:border-2 border-[#F8F8F6]">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="w-full flex flex-col gap-4 px-10 "
+        className="flex flex-col gap-4 px-10"
       >
-        <h1 className="text-2xl text-center">Olá, bem vindo de volta!</h1>
-        <p className="text-center text-sm mx-6 ">
-          Lorem Ipsum is simply dummy text of the printing and typesetting
+        <h1 className="text-[22px] md:text-2xl text-center">Olá, bem vindo de volta!</h1>
+        <p className="text-center text-sm mx-5 md:mx-6 ">
+          Lorem Ipsum is simply dummy text of the printing and typesetting
           industry
         </p>
 
@@ -62,10 +61,10 @@ export function FormDataLogin() {
         </Input.Root>
 
         <Button
-          variant={"link"}
+          variant="link"
           type="button"
           className="flex flex-row-reverse h-3 font-normal text-start text-sm justify-start p-0 cursor-pointer"
-          onClick={() => setIsForgetOpen(true)}
+          onClick={() => router.push("/forget-password")}
         >
           Esqueceu sua senha?
         </Button>
@@ -91,11 +90,6 @@ export function FormDataLogin() {
           )}
         </Button>
       </form>
-
-      {isForgetOpen && (
-        // <ForgetPassword onClose={() => setIsForgetOpen(false)} />
-        <p>test</p>
-      )}
     </div>
   );
 }

@@ -5,6 +5,6 @@ export const PathRoutesRequest = {
     LOGIN: "/oauth2/token",
     REGISTER: "/users",
     FORGETPASSWORD: "/auth/recover-token",
-    RESETPASSWORD: "/auth/new-password"
+    NEWPASSWORD: "/auth/new-password"
   }
 } as const;
