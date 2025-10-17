@@ -11,7 +11,7 @@ type FormValues = SignUpSchemaFormValues["address"];
 
 const schema = z.object({
   alias: z.string().nonempty("Apelido obrigatório"),
-  zip_code: z.string().min(8, "CEP obrigatório"),
+  zip_code: z.string().min(8, "CEP obrigatório"), 
   road: z.string().nonempty("Endereço obrigatório"),
   number: z.string().nonempty("Número obrigatório"),
   neighborhood: z.string().nonempty("Bairro obrigatório"),
@@ -38,19 +38,16 @@ export function StepAddress({
   return (
     <div className="flex flex-col text-left mt-10">
       <form onSubmit={handleSubmit(onNext)} className="flex flex-col gap-4">
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid md:grid-cols-2 gap-3">
           <Input.Prefix>
-            <Input.Field
-              placeholder="Apelido do endereço*"
-              {...register("alias")}
-            />
+            <Input.Field placeholder="Apelido do endereço*" {...register("alias")} />
           </Input.Prefix>
           <Input.Prefix>
             <Input.Field placeholder="CEP*" {...register("zip_code")} />
           </Input.Prefix>
         </div>
 
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid md:grid-cols-2 gap-3">
           <Input.Prefix>
             <Input.Field placeholder="Endereço*" {...register("road")} />
           </Input.Prefix>
@@ -59,7 +56,7 @@ export function StepAddress({
           </Input.Prefix>
         </div>
 
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid md:grid-cols-3 gap-3">
           <Input.Prefix>
             <Input.Field placeholder="Bairro*" {...register("neighborhood")} />
           </Input.Prefix>
@@ -71,7 +68,7 @@ export function StepAddress({
           </Input.Prefix>
         </div>
 
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid md:grid-cols-2 gap-3">
           <Input.Prefix>
             <Input.Field placeholder="Referência" {...register("complement")} />
           </Input.Prefix>
@@ -82,12 +79,7 @@ export function StepAddress({
       </form>
 
       <div className="flex justify-end mt-2">
-        <Button
-          type="button"
-          onClick={() => onPrev(getValues())}
-          className="text-sm p-0"
-          variant="link"
-        >
+        <Button type="button" onClick={() => onPrev(getValues())} className="text-sm p-0" variant="link">
           Voltar
         </Button>
       </div>

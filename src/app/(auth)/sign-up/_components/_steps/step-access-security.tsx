@@ -78,7 +78,7 @@ export function StepAccessSecurity({
           <Input.Field placeholder="E-mail*" {...register("email")} />
         </Input.Prefix>
 
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid md:grid-cols-2 gap-3">
           <Input.Prefix>
             <Input.PasswordField
               type={showPassword ? "text" : "password"}
@@ -145,7 +145,7 @@ export function StepAccessSecurity({
         <div className="flex justify-end mt-4">
           <Button
             type="submit"
-            className="h-12 w-[48%] flex items-center justify-center"
+            className="h-12 w-full md:w-[48%] flex items-center justify-center"
             disabled={!isFormValid || isPending}
             variant={!isFormValid || isPending ? "disabled" : "default"}
           >

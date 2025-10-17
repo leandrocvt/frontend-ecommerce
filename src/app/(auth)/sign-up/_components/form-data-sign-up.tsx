@@ -72,11 +72,11 @@ export function FormDataSignUp() {
     <div className="w-full px-10 md:w-[700px] py-[40px] md:border-2 border-[#F8F8F6] rounded-[10px]">
       <h1 className="text-[22px] md:text-2xl mb-4">Vamos criar sua conta</h1>
 
-      <div className="flex justify-between">
+      <div className="flex flex-col md:flex-row justify-between">
         <p className="text-gray-500 text-sm">
           Lorem Ipsum is simply dummy text of the
         </p>
-        <p className="text-xs font-medium text-[#B5B9BE]">
+        <p className="text-xs mt-2 md:mt-0 font-medium text-[#B5B9BE]">
           Etapa {step + 1} de {steps.length}
         </p>
       </div>
