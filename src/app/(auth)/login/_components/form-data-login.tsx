@@ -31,7 +31,9 @@ export function FormDataLogin() {
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col gap-4 px-10"
       >
-        <h1 className="text-[22px] md:text-2xl text-center">Olá, bem vindo de volta!</h1>
+        <h1 className="text-[22px] md:text-2xl text-center">
+          Olá, bem vindo de volta!
+        </h1>
         <p className="text-center text-sm mx-5 md:mx-6 ">
           Lorem Ipsum is simply dummy text of the printing and typesetting
           industry
@@ -81,6 +83,7 @@ export function FormDataLogin() {
         <Button
           type="button"
           disabled={isPending}
+          onClick={() => router.push("/sign-up")}
           className="h-12 bg-[#FFF] border border-black text-black hover:bg-black hover:text-white transition-colors"
         >
           {isPending ? (

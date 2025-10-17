@@ -6,7 +6,6 @@ import { AxiosError } from "axios";
 import { decodeJwt } from "@/lib";
 import { useRouter } from "next/navigation";
 import { postDataLogin } from "@/services/auth";
-import { homeByRole } from "@/middleware/config";
 import { useMutation } from "@tanstack/react-query";
 import { TOAST_STYLES } from "@/lib/toastStyles";
 
@@ -23,12 +22,13 @@ export function useLoginMutate() {
   const router = useRouter();
 
   const { mutate, isPending } = useMutation<
-    string, 
-    AxiosError<{ error: string }>, 
+    string,
+    AxiosError<{ error: string }>,
     { email: string; password: string }
   >({
     mutationFn: postDataLogin,
     retry: 0,
+
     onSuccess: (jwtToken) => {
       const decoded = decodeJwt(jwtToken);
       if (decoded) {
@@ -40,12 +40,24 @@ export function useLoginMutate() {
           expires: days,
         });
       }
+
+      // ✅ Toast de sucesso
+      toast.success("Login realizado com sucesso!", {
+        description: "Bem-vindo de volta 👋",
+        style: TOAST_STYLES.success,
+      });
+
+      // ✅ Redireciona após 2 segundos
+      setTimeout(() => {
+        router.push("/");
+      }, 2000);
     },
+
     onError: (error) => {
-      const apiMessage = error.response?.data?.error; 
+      const apiMessage = error.response?.data?.error;
       const description = getFriendlyErrorMessage(apiMessage);
 
-      toast.error("Login Inválido", {
+      toast.error("Erro ao fazer login", {
         description,
         style: TOAST_STYLES.error,
       });

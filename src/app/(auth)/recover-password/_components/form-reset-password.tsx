@@ -17,7 +17,7 @@ export function FormResetPassword() {
 
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false); // 👈 estado único
+  const [showPassword, setShowPassword] = useState(false); 
 
   const { register, handleSubmit } = useForm<ResetPasswordFormValues>({
     resolver: zodResolver(resetPassowordSchema),

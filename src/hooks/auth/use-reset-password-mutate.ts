@@ -7,8 +7,7 @@ import { putDataResetPassword } from "@/services/auth";
 import { TOAST_STYLES } from "@/lib/toastStyles";
 
 function getFriendlyErrorMessage(status?: number, apiMessage?: string) {
-  if (status === 400) return "Token inválido ou expirado";
-  if (status === 404) return "Usuário não encontrado";
+  if (status === 404) return "Token inválido ou expirado";
   if (status === 500) return "Erro interno do servidor";
   return apiMessage || "Erro ao redefinir senha";
 }
