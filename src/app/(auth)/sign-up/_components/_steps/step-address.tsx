@@ -47,7 +47,7 @@ export function StepAddress({
           </Input.Prefix>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-3">
+        <div className="grid md:grid-cols-2 gap-4">
           <Input.Prefix>
             <Input.Field placeholder="Endereço*" {...register("road")} />
           </Input.Prefix>
@@ -56,7 +56,7 @@ export function StepAddress({
           </Input.Prefix>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-3">
+        <div className="grid md:grid-cols-3 gap-4">
           <Input.Prefix>
             <Input.Field placeholder="Bairro*" {...register("neighborhood")} />
           </Input.Prefix>
@@ -68,7 +68,7 @@ export function StepAddress({
           </Input.Prefix>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-3">
+        <div className="grid md:grid-cols-2 gap-4">
           <Input.Prefix>
             <Input.Field placeholder="Referência" {...register("complement")} />
           </Input.Prefix>

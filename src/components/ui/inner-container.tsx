@@ -11,11 +11,11 @@ export function InnerContainer({
     <div
       className={twMerge(
         `
-        w-[85%] h-auto flex flex-col relative
+        w-[90%] lg:w-[85%] xl:w-[1026px] 2xl:w-[1500px] h-auto flex flex-col relative
     `,
         className
       )}
-       style={{ border: "2px solid #98fa7a1f" }}
+      // style={{ border: "2px solid #f883151f" }}
     >
       {children}
     </div>

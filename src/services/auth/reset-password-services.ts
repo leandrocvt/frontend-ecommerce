@@ -1,5 +1,5 @@
 import axios from "axios";
-import { PathRoutesRequest } from "@/enums";
+import { PathRoutesRequest } from "@/constants";
 
 export async function putDataResetPassword(data: { token: string; password: string }) {
   const response = await axios.put(

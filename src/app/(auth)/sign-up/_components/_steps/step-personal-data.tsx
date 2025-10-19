@@ -58,8 +58,8 @@ export function StepPersonalData({
 
   return (
     <div className="flex flex-col text-left mt-10">
-      <form onSubmit={handleSubmit(onSubmitHandler)} className="flex flex-col gap-7">
-        <div className="grid md:grid-cols-2 gap-4">
+      <form onSubmit={handleSubmit(onSubmitHandler)} className="flex flex-col gap-4 ">
+        <div className="grid md:grid-cols-2 gap-4 ">
           <Input.Prefix>
             <Input.Field placeholder="Nome*" {...register("first_name")} />
           </Input.Prefix>
@@ -68,7 +68,7 @@ export function StepPersonalData({
           </Input.Prefix>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-4">
+        <div className="grid md:grid-cols-2 gap-4 ">
           <Input.Prefix>
             <Input.Field placeholder="CPF ou CNPJ*" {...register("cpf")} />
           </Input.Prefix>

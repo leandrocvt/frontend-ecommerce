@@ -78,7 +78,7 @@ export function StepAccessSecurity({
           <Input.Field placeholder="E-mail*" {...register("email")} />
         </Input.Prefix>
 
-        <div className="grid md:grid-cols-2 gap-3">
+        <div className="grid md:grid-cols-2 gap-4">
           <Input.Prefix>
             <Input.PasswordField
               type={showPassword ? "text" : "password"}

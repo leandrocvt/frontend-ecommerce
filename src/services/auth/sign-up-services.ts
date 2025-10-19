@@ -1,5 +1,5 @@
 import axios from "axios";
-import { PathRoutesRequest } from "@/enums";
+import { PathRoutesRequest } from "@/constants";
 import { SignUpPayload, SignUpSchemaFormValues } from "@/types/auth";
 
 export async function postDataSignUp(data: SignUpPayload) {

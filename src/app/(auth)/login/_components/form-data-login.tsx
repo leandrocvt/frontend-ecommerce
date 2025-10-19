@@ -31,7 +31,7 @@ export function FormDataLogin() {
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col gap-4 px-10"
       >
-        <h1 className="text-[22px] md:text-2xl text-center">
+        <h1 className="text-[20px] font-normal md:text-2xl text-center">
           Olá, bem vindo de volta!
         </h1>
         <p className="text-center text-sm mx-5 md:mx-6 ">
