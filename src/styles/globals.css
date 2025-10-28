@@ -137,3 +137,7 @@ body {
   overflow-y: auto;
   box-sizing: border-box;
 }
+
+button:focus {
+  @apply outline-none ring-0;
+}

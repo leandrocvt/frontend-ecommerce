@@ -72,10 +72,6 @@ function SheetContent({
         {...props}
       >
         {children}
-        <SheetPrimitive.Close className="absolute top-4 right-4 p-2 rounded-md text-black hover:bg-neutral-200 transition">
-          <XIcon className="size-4" />
-          <span className="sr-only">Fechar</span>
-        </SheetPrimitive.Close>
       </SheetPrimitive.Content>
     </SheetPortal>
   );
