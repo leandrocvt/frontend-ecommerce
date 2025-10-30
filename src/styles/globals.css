@@ -136,8 +136,16 @@ body {
 body {
   overflow-y: auto;
   box-sizing: border-box;
+  font-family: var(--font-inter), sans-serif;
 }
 
 button:focus {
   @apply outline-none ring-0;
+} 
+
+code,
+pre,
+kbd,
+tt {
+  font-family: var(--font-geist-mono), monospace;
 }

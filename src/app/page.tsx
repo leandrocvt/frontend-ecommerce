@@ -2,7 +2,7 @@ import { AppBar } from "@/components/app-bar";
 
 export default function Home() {
   return (
-    <div className="font-sans min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col">
       {/* Header */}
       <AppBar />
 

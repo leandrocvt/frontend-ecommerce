@@ -82,15 +82,10 @@ export function FormDataLogin() {
 
         <Button
           type="button"
-          disabled={isPending}
           onClick={() => router.push("/sign-up")}
           className="h-12 bg-[#FFF] border border-black text-black hover:bg-black hover:text-white transition-colors"
         >
-          {isPending ? (
-            <LoaderCircle className="animate-spin" />
-          ) : (
-            "Criar uma conta"
-          )}
+          Criar uma conta
         </Button>
       </form>
     </div>

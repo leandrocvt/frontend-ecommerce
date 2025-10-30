@@ -2,54 +2,44 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { twMerge } from "tailwind-merge";
+
 import { InnerContainer } from "../ui";
 import { Navigation, Menu, UserMenu } from "./_ui";
 import Logo from "@/assets/logo.svg";
 import IconSearch from "@/assets/icons/icon-search.svg";
 import IconHeart from "@/assets/icons/icon-heart.svg";
 import IconCart from "@/assets/icons/icon-shopping-cart.svg";
-import { useUserProfile } from "@/hooks/auth";
-import Cookies from "js-cookie";
+import { useUserProfileQuery } from "@/hooks/user";
+
+import { useEffect, useState } from "react";
 
 export function AppBar() {
-  const { user, isLoading, isLoggedIn } = useUserProfile();
+  const { isLoading } = useUserProfileQuery();
+  const [isClient, setIsClient] = useState(false);
 
-  const handleLogout = () => {
-    Cookies.remove("token");
-    window.location.reload(); // força recarregar para resetar o estado
-  };
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const handleLogin = () => {
     window.location.href = "/login";
   };
 
   return (
-    <header
-      className={twMerge(
-        "w-full flex items-center justify-center transition-all duration-300"
-      )}
-    >
+    <header className="w-full flex items-center justify-center transition-all duration-300">
       <InnerContainer className="flex flex-row items-center justify-between py-12">
-        {/* Left: Logo */}
         <Link href="/" className="cursor-pointer">
           <Image src={Logo} alt="Logo" className="w-16" />
         </Link>
 
-        {/* Center: Navigation (Desktop) */}
         <div className="hidden lg:flex items-center mr-40 2xl:mr-96">
           <Navigation />
         </div>
 
-        {/* Right: Icons */}
         <div className="flex items-center gap-5">
-          {/* Desktop icons */}
           <div className="hidden lg:flex items-center gap-6">
-            {!isLoading && (
-              <UserMenu
-                onLogin={handleLogin}
-                onLogout={handleLogout}
-              />
+            {isClient && !isLoading && (
+              <UserMenu onLogin={handleLogin} />
             )}
 
             <Image
@@ -76,7 +66,6 @@ export function AppBar() {
             </Link>
           </div>
 
-          {/* Mobile icons */}
           <div className="flex items-center gap-7 lg:hidden">
             <Link href="/favoritos">
               <Image

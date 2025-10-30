@@ -19,8 +19,9 @@ import {
 } from "lucide-react";
 import { UserCircle } from "phosphor-react";
 import { itemsMobileMenu } from "@/constants";
-import { useUserProfile } from "@/hooks/auth";
+import { useUserProfileQuery } from "@/hooks/user";
 import Cookies from "js-cookie";
+import { useQueryClient } from "@tanstack/react-query";
 
 const iconMap = {
   UserCircle,
@@ -34,7 +35,9 @@ export function Menu() {
   const [open, setOpen] = useState(false);
   const [showAccountMenu, setShowAccountMenu] = useState(false);
   const router = useRouter();
-  const { user, isLoggedIn } = useUserProfile();
+  const queryClient = useQueryClient();
+  const { data } = useUserProfileQuery();
+  const isLoggedIn = !!data;
 
   const handleNavigate = (path: string) => {
     setOpen(false);
@@ -44,9 +47,8 @@ export function Menu() {
 
   const handleLogout = () => {
     Cookies.remove("token");
-    setOpen(false);
-    setShowAccountMenu(false);
-    window.location.reload();
+    queryClient.clear();
+    router.push("/");
   };
 
   return (
@@ -64,10 +66,8 @@ export function Menu() {
           Navegação principal do site e opções de usuário.
         </SheetDescription>
 
-        {/* 🔹 Menu principal */}
         {!showAccountMenu && (
           <>
-            {/* Header do usuário */}
             <div className="border-b">
               <button
                 onClick={() =>
@@ -81,7 +81,7 @@ export function Menu() {
                   <UserCircle size={22} />
                   <span>
                     {isLoggedIn
-                      ? `Olá, ${user?.firstName || user?.name || "usuário"}`
+                      ? `Olá, ${data?.firstName || "usuário"}`
                       : "Entrar ou cadastrar"}
                   </span>
                 </div>
@@ -89,10 +89,8 @@ export function Menu() {
               </button>
             </div>
 
-            {/* Seções do menu principal */}
             {itemsMobileMenu.map((section) => {
-              if (section.section === "auth") return null; // já tratado acima
-
+              if (section.section === "auth") return null;
               if (section.items) {
                 return (
                   <div
@@ -131,7 +129,6 @@ export function Menu() {
           </>
         )}
 
-        {/* 🔹 Submenu do usuário (conta) */}
         {showAccountMenu && (
           <div className="flex flex-col h-full">
             <div className="flex items-center p-4 border-b">
@@ -144,9 +141,9 @@ export function Menu() {
               </button>
             </div>
 
-            <div className="p-4 space-y-4 text-sm">
+            <div className="p-4 space-y-7 text-sm">
               <h2 className="font-medium text-lg">
-                {user?.firstName || "Usuário"}
+                {data?.firstName || "Usuário"}
               </h2>
 
               <button
@@ -162,7 +159,7 @@ export function Menu() {
                 Trocas e devoluções
               </button>
               <button
-                onClick={() => handleNavigate("/minha-conta")}
+                onClick={() => handleNavigate("/user/account")}
                 className="block w-full text-black/50 text-left hover:text-black"
               >
                 Minha conta

@@ -1,11 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import {
-  
-  Heart,
-  LogOut,
-} from "lucide-react";
+import { Heart, LogOut } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,16 +18,19 @@ import {
   UserCirclePlus,
 } from "phosphor-react";
 import Cookies from "js-cookie";
-import { useUserProfile } from "@/hooks/auth";
+import { useUserProfileQuery } from "@/hooks/user";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface UserMenuProps {
   onLogin?: () => void;
   onLogout?: () => void;
 }
 
-export function UserMenu({ onLogin, onLogout }: UserMenuProps) {
+export function UserMenu({ onLogin }: UserMenuProps) {
   const router = useRouter();
-  const { user, isLoggedIn } = useUserProfile();
+  const queryClient = useQueryClient();
+  const { data } = useUserProfileQuery();
+  const isLoggedIn = !!data;
 
   const handleLoginClick = () => {
     if (onLogin) onLogin();
@@ -40,8 +39,16 @@ export function UserMenu({ onLogin, onLogout }: UserMenuProps) {
 
   const handleLogout = () => {
     Cookies.remove("token");
-    if (onLogout) onLogout();
-    window.location.reload();
+    queryClient.clear();
+    router.push("/");
+  };
+
+  const handleAccountClick = () => {
+    if (isLoggedIn) {
+      router.push("/user/account");
+    } else {
+      handleLoginClick();
+    }
   };
 
   return (
@@ -58,7 +65,6 @@ export function UserMenu({ onLogin, onLogout }: UserMenuProps) {
         align="center"
         className="w-52 rounded-2xl border mt-3 p-2 shadow-lg"
       >
-        {/* 🔹 Primeiro item muda dependendo do login */}
         <DropdownMenuItem
           onClick={!isLoggedIn ? handleLoginClick : undefined}
           className="flex items-center gap-2 text-black hover:bg-gray-100 cursor-pointer"
@@ -69,47 +75,48 @@ export function UserMenu({ onLogin, onLogout }: UserMenuProps) {
             className="w-[16px] h-[16px]"
           />
           {isLoggedIn
-            ? `Olá, ${user?.firstName || user?.name || "usuário"}`
+            ? `Olá, ${data?.firstName || data?.firstName || "usuário"}`
             : "Entre ou cadastre-se"}
         </DropdownMenuItem>
 
         <DropdownMenuSeparator />
 
-        {/* Restante dos itens (mantém o mesmo layout) */}
         <DropdownMenuItem className="flex items-center gap-2 text-black hover:bg-gray-100">
-          <ClipboardText size={18} color="black" />
+          <ClipboardText color="black" />
           Meus pedidos
         </DropdownMenuItem>
 
         <DropdownMenuItem className="flex items-center gap-2 text-black hover:bg-gray-100">
-          <ArrowsClockwise size={18} color="black" />
+          <ArrowsClockwise color="black"/>
           Trocas e devoluções
         </DropdownMenuItem>
 
-        <DropdownMenuItem className="flex items-center gap-2 text-black hover:bg-gray-100">
-          <UserCirclePlus size={18} color="black" />
+        {/* 🔹 Aqui está o ajuste solicitado */}
+        <DropdownMenuItem
+          onClick={handleAccountClick}
+          className="flex items-center gap-2 text-black hover:bg-gray-100 cursor-pointer"
+        >
+          <UserCirclePlus color="black" />
           Minha conta
         </DropdownMenuItem>
 
         <DropdownMenuItem className="flex items-center gap-2 text-black hover:bg-gray-100">
-          <ChatCenteredDots size={18} color="black" />
+          <ChatCenteredDots color="black" />
           Atendimento
         </DropdownMenuItem>
 
         <DropdownMenuItem className="flex items-center gap-2 text-black hover:bg-gray-100">
-          <Heart size={18} color="black" />
+          <Heart color="black" />
           Meus favoritos
         </DropdownMenuItem>
 
-        {/* 🔹 Adiciona o "Sair" apenas se estiver logado */}
         {isLoggedIn && (
           <>
-   
             <DropdownMenuItem
               onClick={handleLogout}
               className="flex items-center gap-2 hover:bg-red-50"
             >
-              <LogOut size={18} color="black"  className="text-normal" strokeWidth={1.5} />
+              <LogOut color="black" className="text-normal" strokeWidth={1.5} />
               Sair
             </DropdownMenuItem>
           </>

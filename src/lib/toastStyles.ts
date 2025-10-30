@@ -13,7 +13,7 @@ export const TOAST_STYLES = {
   },
   warning: {
     background: "#facc15",
-    color: "#000000", // texto preto para contraste
+    color: "#000000",
     borderRadius: "0.5rem",
     padding: "0.75rem 1rem",
   },
