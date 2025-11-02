@@ -9,7 +9,7 @@ export function SectionHeader({ title, description, className }: SectionHeaderPr
     <header className={`mb-6 ${className ?? ""}`}>
       <h1 className="text-2xl text-gray-900">{title}</h1>
       {description && (
-        <p className="text-sm text-gray-600 mt-1">{description}</p>
+        <p className="text-xs lg:text-sm text-gray-600 mt-1">{description}</p>
       )}
     </header>
   );

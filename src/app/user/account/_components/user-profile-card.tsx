@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { PencilSimple } from "phosphor-react";
+import { useRouter } from "next/navigation";
 
 interface UserProfileCardProps {
   cpf: string;
@@ -23,7 +24,7 @@ export function UserProfileCard({
 }: UserProfileCardProps) {
   const maskedCpf = cpf.replace(/^(\d{2})\d{7}(\d{2})$/, "$1******$2");
   const maskedPhone = phone.replace(/^(\d{2})(\d{5})(\d{4})$/, "($1) $2-$3");
-
+  const router = useRouter();
   const [formattedDate, setFormattedDate] = useState<string>("");
 
   useEffect(() => {
@@ -43,7 +44,10 @@ export function UserProfileCard({
           <div>
             <div className="flex items-center justify-between w-full md:w-44">
               <p className="text-black">Email</p>
-              <button className="text-[#254AA5] text-xs flex items-center gap-1 hover:underline cursor-pointer">
+              <button
+                onClick={() => router.push("/user/account/update-email")}
+                className="text-[#254AA5] text-xs flex items-center gap-1 hover:underline cursor-pointer"
+              >
                 Alterar e-mail <PencilSimple className="w-3.5 h-3.5" />
               </button>
             </div>
@@ -101,7 +105,6 @@ export function UserProfileCard({
         <Button className="w-full lg:w-48 mt-6 flex items-center gap-2 bg-black text-white hover:bg-zinc-800 py-2 h-12 font-light text-xs">
           Alterar dados pessoais <PencilSimple className="w-4 h-4" />
         </Button>
-
       </div>
     </div>
   );

@@ -45,7 +45,7 @@ export default function MyAccountPage() {
     );
 
   return (
-    <div className="">
+    <div>
       <SectionHeader
         title="Meu cadastro"
         description="Acesse ou altere seus dados cadastrais da sua conta."

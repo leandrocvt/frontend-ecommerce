@@ -18,7 +18,7 @@ export function AccountSidebar() {
             key={item.href}
             href={item.href}
             className={cn(
-              "flex items-center justify-between px-3 py-2 rounded-[5px] text-sm transition-colors font-medium border-1  border-[#F8F8F6] my-3 mx-3",
+              "flex items-center justify-between px-3 py-2 rounded-[5px] text-xs transition-colors font-medium border-1  border-[#F8F8F6] my-3 mx-3",
               isActive
                 ? "bg-muted font-medium"
                 : "hover:bg-muted"
