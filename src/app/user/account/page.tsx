@@ -6,21 +6,23 @@ import { Loader2 } from "lucide-react";
 import { UserProfileCard } from "./_components/user-profile-card";
 import { SectionHeader } from "@/components";
 import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
 
 export default function MyAccountPage() {
   const [isClient, setIsClient] = useState(false);
   const { data, isLoading, isError } = useUserProfileQuery();
+  const router = useRouter();
 
   useEffect(() => {
     setIsClient(true);
   }, []);
 
   useEffect(() => {
-    if (isError) {
-      Cookies.remove("token");
-      window.location.href = "/"; 
+    const token = Cookies.get("token");
+    if (!token) {
+      router.replace("/login");
     }
-  }, [isError]);
+  }, [router]);
 
   if (!isClient) {
     return (

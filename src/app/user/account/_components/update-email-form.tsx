@@ -3,8 +3,7 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useUpdateEmailMutate } from "@/hooks/user";
-import { useUserProfileQuery } from "@/hooks/user";
+import { useUpdateEmailMutate, useUserProfileQuery } from "@/hooks/user";
 import {
   updateEmailSchema,
   UpdateEmailFormValues,
@@ -17,7 +16,10 @@ import { useRouter } from "next/navigation";
 
 export function UpdateEmailForm() {
   const router = useRouter();
+  const [isRedirecting] = useState(false);
+
   const { mutate, isPending } = useUpdateEmailMutate();
+
   const { data: profile, isLoading } = useUserProfileQuery();
   const [showPassword, setShowPassword] = useState(false);
 
@@ -41,10 +43,10 @@ export function UpdateEmailForm() {
     });
   }
 
-  if (!isClient || isLoading)
+  if (!isClient || isLoading || isRedirecting)
     return (
-      <div className="flex justify-center py-20">
-        <Loader2 className="animate-spin w-6 h-6 text-muted-foreground" />
+      <div className="flex justify-center items-center h-[70vh]">
+        <Loader2 className="animate-spin w-8 h-8 text-muted-foreground" />
       </div>
     );
 
@@ -127,7 +129,7 @@ export function UpdateEmailForm() {
             type="button"
             variant="outline"
             onClick={() => router.push("/user/account")}
-            className="w-full lg:w-32  h-12 text-sm border-2 border-black font-medium"
+            className="w-full lg:w-32 h-12 text-sm border-2 border-black font-medium"
           >
             Cancelar
           </Button>

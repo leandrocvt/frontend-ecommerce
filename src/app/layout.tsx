@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Inter, Geist_Mono } from "next/font/google";
 import { ReactQueryProvider } from "@/providers";
 import { Toaster } from "@/components/ui";
+import { GlobalLoader } from "@/components/ui/global-loader";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -30,6 +31,7 @@ export default function RootLayout({
         <ReactQueryProvider>
           {children}
           <Toaster />
+          <GlobalLoader />
         </ReactQueryProvider>
       </body>
     </html>

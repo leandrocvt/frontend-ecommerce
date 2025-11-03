@@ -9,11 +9,11 @@ export function useUserProfileQuery() {
   const token = Cookies.get("token");
 
   return useQuery<UserProfile, Error>({
-    queryKey: ["query_user_profile"],
+    queryKey: ["userProfile"], 
     queryFn: getUserProfile,
     enabled: !!token,
     refetchOnWindowFocus: false,
     staleTime: 24 * 60 * 60 * 1000,
-    retry: false, 
+    retry: false,
   });
 }

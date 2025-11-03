@@ -1,10 +1,12 @@
 import { toast } from "sonner";
 import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { putDataUpdateEmail } from "@/services/user";
 import { TOAST_STYLES } from "@/lib/toastStyles";
-import { ApiErrorResponse } from "@/types/api"; 
+import { ApiErrorResponse } from "@/types/api";
+import Cookies from "js-cookie";
+import { useLoadingStore } from "@/stores";
 
 function getFriendlyErrorMessage(status?: number, apiMessage?: string) {
   if (status === 401) return "Senha incorreta";
@@ -16,18 +18,31 @@ function getFriendlyErrorMessage(status?: number, apiMessage?: string) {
 
 export function useUpdateEmailMutate() {
   const router = useRouter();
+  const queryClient = useQueryClient();
+  const { showLoading, hideLoading } = useLoadingStore();
 
   const { mutate, isPending } = useMutation({
     mutationFn: putDataUpdateEmail,
     retry: 0,
-    onSuccess: (data: { message?: string }) => {
-      toast.success(data.message || "E-mail atualizado com sucesso! Faça login novamente.", {
+    onMutate: () => {
+      showLoading();
+    },
+    onSuccess: () => {
+      queryClient.removeQueries({ queryKey: ["userProfile"] });
+      Cookies.remove("token");
+
+      toast.success("E-mail atualizado com sucesso!", {
         style: TOAST_STYLES.success,
       });
 
-      setTimeout(() => router.push("/login"), 3000);
+      setTimeout(() => {
+        hideLoading();
+        router.replace("/login");
+      }, 800);
     },
-    onError: (error: AxiosError<ApiErrorResponse>) => { 
+    onError: (error: AxiosError<ApiErrorResponse>) => {
+      hideLoading();
+
       const status = error.response?.status;
       const apiMessage =
         error.response?.data?.message ||
