@@ -35,12 +35,10 @@ export function UserProfileCard({
 
   return (
     <div className="flex flex-col gap-8">
-      {/* DADOS DE ACESSO */}
       <div className="border-[#F8F8F6] border-2 rounded-[10px] p-6">
         <h3 className="text-sm font-semibold mb-6">Dados de acesso</h3>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-6 text-sm">
-          {/* EMAIL */}
           <div>
             <div className="flex items-center justify-between w-full md:w-44">
               <p className="text-black">Email</p>
@@ -53,19 +51,18 @@ export function UserProfileCard({
             </div>
             <p className="text-muted-foreground mt-1">{email}</p>
           </div>
-
-          {/* TELEFONE */}
           <div>
             <div className="flex items-center justify-between w-full md:w-44">
               <p className="text-black">Telefone</p>
-              <button className="text-[#254AA5] text-xs flex items-center gap-1 hover:underline cursor-pointer">
+              <button
+                onClick={() => router.push("/user/account/update-phone")}
+                className="text-[#254AA5] text-xs flex items-center gap-1 hover:underline cursor-pointer"
+              >
                 Alterar telefone <PencilSimple className="w-3.5 h-3.5" />
               </button>
             </div>
             <p className="text-muted-foreground mt-1">{maskedPhone}</p>
           </div>
-
-          {/* SENHA */}
           <div>
             <div className="flex items-center justify-between w-full md:w-44">
               <p className="text-black">Senha</p>
@@ -77,8 +74,6 @@ export function UserProfileCard({
           </div>
         </div>
       </div>
-
-      {/* DADOS PESSOAIS */}
       <div className="border-[#F8F8F6] border-2 rounded-[10px] p-6">
         <h3 className="text-sm font-semibold mb-6">Dados pessoais</h3>
 

@@ -1,4 +1,4 @@
-import { Root, Label, Prefix, Field, PasswordField, ErrorMessages } from "./_ui";
+import { Root, Label, Prefix, Field, PasswordField, ErrorMessages, PhoneField } from "./_ui";
 
 export const Input = {
   Root,
@@ -7,4 +7,5 @@ export const Input = {
   Field,
   PasswordField, 
   ErrorMessages,
+  PhoneField
 };
