@@ -64,7 +64,7 @@ export function UpdatePhoneForm() {
         <div>
           <p className="text-sm font-medium mb-5">Telefone atual</p>
           <Input.Prefix>
-            <Input.Field
+            <PhoneField
               value={profile?.phone || ""}
               disabled
               className="text-[#000000]"

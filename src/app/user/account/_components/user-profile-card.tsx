@@ -66,7 +66,9 @@ export function UserProfileCard({
           <div>
             <div className="flex items-center justify-between w-full md:w-44">
               <p className="text-black">Senha</p>
-              <button className="text-[#254AA5] text-xs flex items-center gap-1 hover:underline cursor-pointer">
+              <button 
+              onClick={() => router.push("/user/account/update-password")}
+              className="text-[#254AA5] text-xs flex items-center gap-1 hover:underline cursor-pointer">
                 Alterar senha <PencilSimple className="w-3.5 h-3.5" />
               </button>
             </div>

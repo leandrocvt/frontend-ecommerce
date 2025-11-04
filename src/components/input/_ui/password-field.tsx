@@ -4,9 +4,7 @@ import { useState } from "react";
 import { Field, InputFieldProps } from "./field";
 
 export interface PasswordFieldProps extends InputFieldProps {
-  /** Se quiser controlar de fora */
   isVisible?: boolean;
-  /** Se quiser mudar de fora */
   onToggleVisibility?: () => void;
 }
 
@@ -16,7 +14,7 @@ export function PasswordField({
   onToggleVisibility,
   ...props
 }: PasswordFieldProps) {
-  // controla internamente se nada for passado
+
   const [internalVisible, setInternalVisible] = useState(false);
   const visible = isVisible ?? internalVisible;
   const toggle = onToggleVisibility ?? (() => setInternalVisible(!internalVisible));
