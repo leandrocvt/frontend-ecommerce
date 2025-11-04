@@ -66,9 +66,10 @@ export function UserProfileCard({
           <div>
             <div className="flex items-center justify-between w-full md:w-44">
               <p className="text-black">Senha</p>
-              <button 
-              onClick={() => router.push("/user/account/update-password")}
-              className="text-[#254AA5] text-xs flex items-center gap-1 hover:underline cursor-pointer">
+              <button
+                onClick={() => router.push("/user/account/update-password")}
+                className="text-[#254AA5] text-xs flex items-center gap-1 hover:underline cursor-pointer"
+              >
                 Alterar senha <PencilSimple className="w-3.5 h-3.5" />
               </button>
             </div>
@@ -99,7 +100,10 @@ export function UserProfileCard({
           <p className="text-muted-foreground mt-1">{formattedDate}</p>
         </div>
 
-        <Button className="w-full lg:w-48 mt-6 flex items-center gap-2 bg-black text-white hover:bg-zinc-800 py-2 h-12 font-light text-xs">
+        <Button
+          onClick={() => router.push("/user/account/update-name")}
+          className="w-full lg:w-48 mt-6 flex items-center gap-2 bg-black text-white hover:bg-zinc-800 py-2 h-12 font-light text-xs"
+        >
           Alterar dados pessoais <PencilSimple className="w-4 h-4" />
         </Button>
       </div>
