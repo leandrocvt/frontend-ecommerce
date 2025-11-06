@@ -6,16 +6,19 @@ export interface UserProfile {
   birthDate: string;
   cpf: string;
   roles: { authority: string }[];
-  addresses: AddressUserProfile[]
-};
+  addresses: AddressUserProfile[];
+}
 
-export interface AddressUserProfile{
-    alias: string;
-    road: string;
-    neighborhood: string;
-    city: string;
-    state: string;
-    zipCode: string;
-    number: string;
-    complement: string;
+export interface AddressUserProfile {
+  id: number;
+  alias: string;
+  road: string;
+  neighborhood: string;
+  city: string;
+  state: string;
+  zipCode: string;
+  number: string;
+  complement: string;
+  recipientName: string;
+  phoneNumber: string;
 }

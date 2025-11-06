@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useStatusModalStore } from "@/stores";
 import { postDataSignUp } from "@/services/auth";
 import { useMutation } from "@tanstack/react-query";
-import { TOAST_STYLES } from "@/lib/toastStyles";
+import { TOAST_STYLES } from "@/lib/toast-styles";
 
 export function useSignUpMutate() {
   const router = useRouter();

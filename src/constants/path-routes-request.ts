@@ -10,4 +10,9 @@ export const PathRoutesRequest = {
     UPDATE_EMAIL: "/users/email",
     UPDATE_PASSWORD: "/users/password",
   },
+  ADDRESS: {
+    NEW_ADDRESS: "/address",
+    UPDATE_ADDRESS: "/address/{addressId}",
+    DELETE_ADDRESS: "/address/{addressId}",
+  },
 } as const;

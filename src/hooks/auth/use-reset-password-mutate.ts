@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useStatusModalStore } from "@/stores";
 import { useMutation } from "@tanstack/react-query";
 import { putDataResetPassword } from "@/services/auth";
-import { TOAST_STYLES } from "@/lib/toastStyles";
+import { TOAST_STYLES } from "@/lib/toast-styles";
 
 function getFriendlyErrorMessage(status?: number, apiMessage?: string) {
   if (status === 404) return "Token inválido ou expirado";

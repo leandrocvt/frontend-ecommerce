@@ -30,10 +30,10 @@ export function AddressCard({
   onDelete,
 }: AddressCardProps) {
   return (
-    <div className="w-full flex justify-between border-2 border-[#F8F8F6] rounded-[10px] p-6 text-sm lg:max-w-[600px]">
+    <div className="w-full flex justify-between border-2 border-[#F8F8F6] rounded-[10px] p-6 text-sm lg:max-w-[700px]">
       <div>
         <h4 className="font-medium text-[15px] text-black ">{alias}</h4>
-        <p className="text-sm text-muted-foreground leading-relaxed py-5">
+        <p className="text-sm text-muted-foreground leading-relaxed py-2">
           {road?.toUpperCase()}, {number}
           {complement ? ` - ${complement.toUpperCase()}` : ""} –{" "}
           {neighborhood?.toUpperCase()},
@@ -42,13 +42,13 @@ export function AddressCard({
           {phone && (
             <>
               <br />
-              <span className="text-black">Telefone:</span>{" "}
+              <span className="text-muted-foreground">Telefone:</span>{" "}
               <span className="text-muted-foreground">{phone}</span>
             </>
           )}
         </p>
       </div>
-      <div className="flex flex-col items-cente justify-between">
+      <div className="flex flex-col items-center justify-between">
         <button
           onClick={onEdit}
           aria-label="Editar endereço"

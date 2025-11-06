@@ -7,7 +7,7 @@ import { decodeJwt } from "@/lib";
 import { useRouter } from "next/navigation";
 import { postDataLogin } from "@/services/auth";
 import { useMutation } from "@tanstack/react-query";
-import { TOAST_STYLES } from "@/lib/toastStyles";
+import { TOAST_STYLES } from "@/lib/toast-styles";
 
 function getFriendlyErrorMessage(apiMessage?: string) {
   switch (apiMessage) {
@@ -40,14 +40,11 @@ export function useLoginMutate() {
           expires: days,
         });
       }
-
-      // ✅ Toast de sucesso
       toast.success("Login realizado com sucesso!", {
         description: "Bem-vindo de volta 👋",
         style: TOAST_STYLES.success,
       });
 
-      // ✅ Redireciona após 2 segundos
       setTimeout(() => {
         router.push("/");
       }, 2000);

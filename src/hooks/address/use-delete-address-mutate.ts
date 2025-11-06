@@ -1,32 +1,29 @@
+"use client";
+
 import { toast } from "sonner";
 import { AxiosError } from "axios";
-import { useRouter } from "next/navigation";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { patchDataUpdateName } from "@/services/user";
+import { deleteAddress } from "@/services/address/delete-address";
 import { TOAST_STYLES } from "@/lib/toast-styles";
 import { ApiErrorResponse } from "@/types/api";
 import { useLoadingStore } from "@/stores";
 
-export function useUpdateNameMutate() {
-  const router = useRouter();
+export function useDeleteAddressMutate() {
   const queryClient = useQueryClient();
   const { showLoading, hideLoading } = useLoadingStore();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: patchDataUpdateName,
+    mutationFn: (addressId: number) => deleteAddress(addressId),
     retry: 0,
     onMutate: showLoading,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["userProfile"] });
 
-      toast.success("Nome atualizado com sucesso!", {
+      toast.success("Endereço excluído com sucesso!", {
         style: TOAST_STYLES.success,
       });
 
-      setTimeout(() => {
-        hideLoading();
-        router.replace("/user/account");
-      }, 800);
+      hideLoading();
     },
     onError: (error: AxiosError<ApiErrorResponse>) => {
       hideLoading();
@@ -34,7 +31,7 @@ export function useUpdateNameMutate() {
       const message =
         error.response?.data?.message ||
         error.response?.data?.error ||
-        "Erro ao atualizar nome";
+        "Erro ao excluir endereço.";
 
       toast.error(message, { style: TOAST_STYLES.error });
     },

@@ -3,7 +3,7 @@ import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { putDataUpdatePassword } from "@/services/user";
-import { TOAST_STYLES } from "@/lib/toastStyles";
+import { TOAST_STYLES } from "@/lib/toast-styles";
 import { ApiErrorResponse } from "@/types/api";
 import Cookies from "js-cookie";
 import { useLoadingStore } from "@/stores";
