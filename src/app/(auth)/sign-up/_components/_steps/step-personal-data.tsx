@@ -2,19 +2,20 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components";
 import { Button } from "@/components/ui";
 import { LoaderCircle } from "lucide-react";
 import { validateIdentification } from "@/lib";
+import { CpfCnpjField, PhoneField } from "@/components/input/_ui";
 
 const schema = z.object({
   first_name: z.string().min(2, "Nome obrigatório"),
   last_name: z.string().min(2, "Sobrenome obrigatório"),
   cpf: z.string().nonempty("CPF obrigatório").refine(validateIdentification, {
-    message: "CPF inválido",
+    message: "CPF/CNPJ inválido",
   }),
   birth_date: z.string().nonempty("Data obrigatória"),
   phone: z.string().min(10, "Telefone inválido"),
@@ -33,7 +34,7 @@ export function StepPersonalData({
   const router = useRouter();
   const [isPending, setIsPending] = useState(false);
 
-  const { register, handleSubmit, watch } = useForm<FormValues>({
+  const { register, handleSubmit, control, watch } = useForm<FormValues>({
     resolver: zodResolver(schema),
     mode: "onChange",
     defaultValues,
@@ -58,8 +59,8 @@ export function StepPersonalData({
 
   return (
     <div className="flex flex-col text-left mt-10">
-      <form onSubmit={handleSubmit(onSubmitHandler)} className="flex flex-col gap-4 ">
-        <div className="grid md:grid-cols-2 gap-4 ">
+      <form onSubmit={handleSubmit(onSubmitHandler)} className="flex flex-col gap-4">
+        <div className="grid md:grid-cols-2 gap-4">
           <Input.Prefix>
             <Input.Field placeholder="Nome*" {...register("first_name")} />
           </Input.Prefix>
@@ -68,19 +69,35 @@ export function StepPersonalData({
           </Input.Prefix>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-4 ">
-          <Input.Prefix>
-            <Input.Field placeholder="CPF ou CNPJ*" {...register("cpf")} />
-          </Input.Prefix>
+        <div className="grid md:grid-cols-2 gap-4">
+          {/* CPF / CNPJ */}
+          <Controller
+            name="cpf"
+            control={control}
+            render={({ field }) => (
+              <Input.Prefix>
+                <CpfCnpjField {...field} value={field.value || ""} />
+              </Input.Prefix>
+            )}
+          />
+
+          {/* Data de nascimento */}
           <Input.Prefix>
             <Input.Field type="date" placeholder="Data de Nascimento*" {...register("birth_date")} />
           </Input.Prefix>
         </div>
 
         <div className="grid md:grid-cols-2 gap-4">
-          <Input.Prefix>
-            <Input.Field placeholder="Celular*" {...register("phone")} />
-          </Input.Prefix>
+          {/* Telefone */}
+          <Controller
+            name="phone"
+            control={control}
+            render={({ field }) => (
+              <Input.Prefix>
+                <PhoneField {...field} value={field.value || ""} />
+              </Input.Prefix>
+            )}
+          />
 
           <Button
             type="submit"
@@ -94,12 +111,7 @@ export function StepPersonalData({
       </form>
 
       <div className="flex justify-end mt-2">
-        <Button
-          type="button"
-          variant="link"
-          className="text-sm p-0"
-          onClick={() => router.push("/login")} 
-        >
+        <Button type="button" variant="link" className="text-sm p-0" onClick={() => router.push("/login")}>
           Voltar
         </Button>
       </div>

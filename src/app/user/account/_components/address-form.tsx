@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "sonner";
 import { addressSchema, AddressSchemaFormValues } from "@/types/address";
+import { useFetchCep } from "@/hooks/address";
 
 interface AddressFormProps {
   mode: "add" | "edit";
@@ -24,12 +25,15 @@ export function AddressForm({
   isSubmitting = false,
 }: AddressFormProps) {
   const [noNumber, setNoNumber] = useState(false);
+  const { searchCep, loading: loadingCep } = useFetchCep();
 
   const {
     control,
     register,
     handleSubmit,
     reset,
+    setValue,
+    getValues,
     formState: { errors },
   } = useForm<AddressSchemaFormValues>({
     resolver: zodResolver(addressSchema),
@@ -67,15 +71,15 @@ export function AddressForm({
       });
       setNoNumber(false);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [defaultValues]);
+  }, [defaultValues, reset]);
 
   const onFormSubmit = (data: AddressSchemaFormValues) => {
-    const cleanPhone = data.phoneNumber.replace(/\D/g, ""); 
+    const cleanPhone = data.phoneNumber.replace(/\D/g, "");
     const final = {
       ...data,
       number: noNumber ? "" : data.number,
       phoneNumber: cleanPhone,
+      noNumber,
     };
     onSubmit(final);
   };
@@ -85,9 +89,24 @@ export function AddressForm({
     if (firstError) toast.error(firstError);
   };
 
+  const handleCepBlur = async () => {
+    const zipCode = getValues("zipCode");
+    if (!zipCode || zipCode.replace(/\D/g, "").length !== 8) return;
+
+    const data = await searchCep(zipCode);
+    if (!data) return;
+
+    setValue("road", data.logradouro || "");
+    setValue("neighborhood", data.bairro || "");
+    setValue("city", data.localidade || "");
+    setValue("state", data.uf || "");
+    if (data.complemento) setValue("complement", data.complemento);
+  };
+
   return (
     <form onSubmit={handleSubmit(onFormSubmit, onError)} className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {/* Apelido */}
         <div>
           <Input.Prefix>
             <Input.Field
@@ -100,6 +119,7 @@ export function AddressForm({
           )}
         </div>
 
+        {/* Nome destinatário */}
         <div>
           <Input.Prefix>
             <Input.Field
@@ -114,6 +134,7 @@ export function AddressForm({
           )}
         </div>
 
+        {/* Telefone */}
         <div>
           <Controller
             name="phoneNumber"
@@ -136,6 +157,7 @@ export function AddressForm({
           )}
         </div>
 
+        {/* CEP */}
         <div className="flex flex-col">
           <Controller
             name="zipCode"
@@ -146,7 +168,9 @@ export function AddressForm({
                   {...field}
                   value={field.value || ""}
                   onChange={(e) => field.onChange(e.target.value)}
+                  onBlur={handleCepBlur}
                   placeholder="00000-000"
+                  disabled={loadingCep}
                 />
               </Input.Prefix>
             )}
@@ -166,6 +190,7 @@ export function AddressForm({
           )}
         </div>
 
+        {/* Rua */}
         <div>
           <Input.Prefix>
             <Input.Field placeholder="Rua / Avenida" {...register("road")} />
@@ -175,22 +200,28 @@ export function AddressForm({
           )}
         </div>
 
+        {/* Número + Sem número */}
         <div className="flex flex-col">
-          <Input.Prefix>
-            <Input.Field
-              placeholder="Número"
-              {...register("number")}
-              value={noNumber ? "" : undefined}
-              disabled={noNumber}
-            />
-          </Input.Prefix>
+          <Controller
+            name="number"
+            control={control}
+            render={({ field }) => (
+              <Input.Prefix>
+                <Input.Field
+                  {...field}
+                  placeholder="Número"
+                  value={noNumber ? "" : field.value || ""}
+                  onChange={(e) => field.onChange(e.target.value)}
+                  disabled={noNumber}
+                />
+              </Input.Prefix>
+            )}
+          />
 
           <label className="flex items-center gap-2 mt-2 text-xs text-muted-foreground">
             <Checkbox
               checked={noNumber}
-              onCheckedChange={(checked) => {
-                setNoNumber(!!checked);
-              }}
+              onCheckedChange={(checked) => setNoNumber(!!checked)}
             />
             Sem número
           </label>
@@ -199,6 +230,7 @@ export function AddressForm({
           )}
         </div>
 
+        {/* Bairro */}
         <div>
           <Input.Prefix>
             <Input.Field placeholder="Bairro" {...register("neighborhood")} />
@@ -210,6 +242,7 @@ export function AddressForm({
           )}
         </div>
 
+        {/* Cidade */}
         <div>
           <Input.Prefix>
             <Input.Field placeholder="Cidade" {...register("city")} />
@@ -219,6 +252,7 @@ export function AddressForm({
           )}
         </div>
 
+        {/* Estado */}
         <div>
           <Controller
             name="state"
@@ -239,6 +273,7 @@ export function AddressForm({
           )}
         </div>
 
+        {/* Complemento */}
         <div className="md:col-span-2">
           <Input.Prefix>
             <Input.Field
@@ -249,6 +284,7 @@ export function AddressForm({
         </div>
       </div>
 
+      {/* Botões */}
       <div className="flex justify-end gap-3 mt-6">
         <Button
           type="button"

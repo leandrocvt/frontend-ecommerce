@@ -21,6 +21,8 @@ export function toSignUpPayload(data: SignUpSchemaFormValues): SignUpPayload {
     birthDate: data.birth_date,
     address: {
       alias: data.address?.alias?.trim() ?? "",
+      recipientName: data.address?.recipientName?.trim() ?? "",
+      phoneNumber: data.address?.phoneNumber?.replace(/\D/g, "") ?? "",
       road: data.address?.road?.trim() ?? "",
       neighborhood: data.address?.neighborhood?.trim() ?? "",
       city: data.address?.city?.trim() ?? "",
@@ -31,5 +33,3 @@ export function toSignUpPayload(data: SignUpSchemaFormValues): SignUpPayload {
     },
   };
 }
-
-

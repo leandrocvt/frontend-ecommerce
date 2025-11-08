@@ -5,5 +5,6 @@ export * from './prefix';
 export * from './error-message';
 export * from './password-field';
 export * from './phone-field';
-export * from "./cep-field";
-export * from "./uf-field";
+export * from './cep-field';
+export * from './uf-field';
+export * from './cpf-cnpj-field';
