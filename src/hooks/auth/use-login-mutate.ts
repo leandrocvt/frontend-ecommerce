@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { postDataLogin } from "@/services/auth";
 import { useMutation } from "@tanstack/react-query";
 import { TOAST_STYLES } from "@/lib/toast-styles";
+import { COOKIE_AUTH, homeByRole } from "@/middleware/config";
 
 function getFriendlyErrorMessage(apiMessage?: string) {
   switch (apiMessage) {
@@ -31,23 +32,33 @@ export function useLoginMutate() {
 
     onSuccess: (jwtToken) => {
       const decoded = decodeJwt(jwtToken);
-      if (decoded) {
-        const now = Math.floor(Date.now() / 1000);
-        const days = Math.max(0.01, (decoded.exp - now) / (60 * 60 * 24));
-        Cookies.set("token", jwtToken, {
-          secure: true,
-          sameSite: "Strict",
-          expires: days,
+
+      if (!decoded) {
+        toast.error("Erro ao validar o token recebido.", {
+          style: TOAST_STYLES.error,
         });
+        return;
       }
+
+      const now = Math.floor(Date.now() / 1000);
+      const days = Math.max(0.01, (decoded.exp - now) / (60 * 60 * 24));
+
+      Cookies.set(COOKIE_AUTH, jwtToken, {
+        secure: true,
+        sameSite: "Strict",
+        expires: days,
+      });
+
+      const redirectTo = homeByRole(decoded.role);
+
       toast.success("Login realizado com sucesso!", {
         description: "Bem-vindo de volta 👋",
         style: TOAST_STYLES.success,
       });
 
       setTimeout(() => {
-        router.push("/");
-      }, 2000);
+        router.replace(redirectTo);
+      }, 1000);
     },
 
     onError: (error) => {

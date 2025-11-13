@@ -11,12 +11,18 @@ export enum RouteGroup {
   CLIENT = "client",
 }
 
+export const HOME_BY_ROLE: Record<UserRole, string> = {
+  [UserRole.ADMIN]: "/admin",
+  [UserRole.CLIENT]: "/",
+  [UserRole.UNKNOWN]: "/",
+};
+
 export const COOKIE_AUTH = "token";
 export const ROLE_CLAIM = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role";
 
 export const routeGroups: Record<RouteGroup, string[]> = {
   [RouteGroup.PUBLIC]: [
-    "/", 
+    "/",
     "/policy-privacy",
     "/terms-conditions",
   ],
@@ -26,18 +32,13 @@ export const routeGroups: Record<RouteGroup, string[]> = {
     "/reset-password",
   ],
   [RouteGroup.CLIENT]: [
-    "/account",
-    "/catalog",
-    "/overview",
+    "/user", 
   ],
   [RouteGroup.ADMIN]: [
     "/admin",
-    "/admin/all-products",
   ],
 };
 
 export function homeByRole(role: UserRole): string {
-  if (role === UserRole.ADMIN) return "/admin";
-  if (role === UserRole.CLIENT) return "/client"; 
-  return "/overview";
+  return HOME_BY_ROLE[role] ?? "/";
 }

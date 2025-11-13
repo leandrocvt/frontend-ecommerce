@@ -15,4 +15,7 @@ export const PathRoutesRequest = {
     UPDATE_ADDRESS: "/address/{addressId}",
     DELETE_ADDRESS: "/address/{addressId}",
   },
+  ADMIN: {},
 } as const;
+
+export type PathRoutes = typeof PathRoutesRequest;

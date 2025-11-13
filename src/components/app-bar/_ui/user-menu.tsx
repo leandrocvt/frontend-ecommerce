@@ -15,6 +15,7 @@ import {
   ArrowsClockwise,
   ChatCenteredDots,
   ClipboardText,
+  Monitor,
   UserCirclePlus,
 } from "phosphor-react";
 import Cookies from "js-cookie";
@@ -87,11 +88,10 @@ export function UserMenu({ onLogin }: UserMenuProps) {
         </DropdownMenuItem>
 
         <DropdownMenuItem className="flex items-center gap-2 text-black hover:bg-gray-100">
-          <ArrowsClockwise color="black"/>
+          <ArrowsClockwise color="black" />
           Trocas e devoluções
         </DropdownMenuItem>
 
-        {/* 🔹 Aqui está o ajuste solicitado */}
         <DropdownMenuItem
           onClick={handleAccountClick}
           className="flex items-center gap-2 text-black hover:bg-gray-100 cursor-pointer"
@@ -109,6 +109,16 @@ export function UserMenu({ onLogin }: UserMenuProps) {
           <Heart color="black" />
           Meus favoritos
         </DropdownMenuItem>
+
+        {isLoggedIn && data?.role === "ROLE_ADMIN" && (
+          <DropdownMenuItem
+            onClick={() => router.push("/admin")}
+            className="flex items-center gap-2 text-black hover:bg-gray-100 cursor-pointer"
+          >
+            <Monitor color="black" />
+            Painel administrativo
+          </DropdownMenuItem>
+        )}
 
         {isLoggedIn && (
           <>

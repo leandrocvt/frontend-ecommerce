@@ -177,6 +177,15 @@ export function Menu() {
                 Atendimento
               </button>
 
+              {data?.role === "ROLE_ADMIN" && (
+                <button
+                  onClick={() => handleNavigate("/admin")}
+                  className="block w-full text-black/50 text-left hover:text-black"
+                >
+                  Painel administrativo
+                </button>
+              )}
+
               <button
                 onClick={handleLogout}
                 className="block w-full text-black/50 text-left hover:text-black"

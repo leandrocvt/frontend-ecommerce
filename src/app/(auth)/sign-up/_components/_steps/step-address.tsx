@@ -49,7 +49,10 @@ export function StepAddress({
         {/* Linha 1: Apelido e telefone */}
         <div className="grid md:grid-cols-2 gap-3">
           <Input.Prefix>
-            <Input.Field placeholder="Apelido do endereço*" {...register("alias")} />
+            <Input.Field
+              placeholder="Apelido do endereço*"
+              {...register("alias")}
+            />
           </Input.Prefix>
 
           <Controller
@@ -63,31 +66,43 @@ export function StepAddress({
           />
         </div>
 
-        {/* Linha 2: Nome e CEP */}
         <div className="grid md:grid-cols-2 gap-3">
           <Input.Prefix>
-            <Input.Field placeholder="Nome do destinatário*" {...register("recipientName")} />
+            <Input.Field
+              placeholder="Nome do destinatário*"
+              {...register("recipientName")}
+            />
           </Input.Prefix>
 
-          <Controller
-            name="zip_code"
-            control={control}
-            render={({ field }) => (
-              <Input.Prefix>
-                <Input.CepField
-                  {...field}
-                  value={field.value || ""}
-                  onChange={(e) => field.onChange(e.target.value)}
-                  onBlur={handleCepBlur}
-                  placeholder="00000-000"
-                  disabled={loadingCep}
-                />
-              </Input.Prefix>
-            )}
-          />
+          <div className="flex flex-col">
+            <Controller
+              name="zip_code"
+              control={control}
+              render={({ field }) => (
+                <Input.Prefix>
+                  <Input.CepField
+                    {...field}
+                    value={field.value || ""}
+                    onChange={(e) => field.onChange(e.target.value)}
+                    onBlur={handleCepBlur}
+                    placeholder="00000-000"
+                    disabled={loadingCep}
+                  />
+                </Input.Prefix>
+              )}
+            />
+
+            <a
+              href="https://buscacepinter.correios.com.br/app/endereco/index.php"
+              target="_blank"
+              rel="noreferrer"
+              className="w-fit text-xs hover:underline mt-1 lg:font-medium text-muted-foreground outline-none"
+            >
+              Não sei meu CEP
+            </a>
+          </div>
         </div>
 
-        {/* Linha 3: Endereço e número */}
         <div className="grid md:grid-cols-2 gap-4">
           <Input.Prefix>
             <Input.Field placeholder="Endereço*" {...register("road")} />
@@ -97,7 +112,6 @@ export function StepAddress({
           </Input.Prefix>
         </div>
 
-        {/* Linha 4: Bairro, cidade e estado */}
         <div className="grid md:grid-cols-3 gap-4">
           <Input.Prefix>
             <Input.Field placeholder="Bairro*" {...register("neighborhood")} />
@@ -106,11 +120,14 @@ export function StepAddress({
             <Input.Field placeholder="Cidade*" {...register("city")} />
           </Input.Prefix>
           <Input.Prefix>
-            <Input.Field placeholder="UF*" maxLength={2} {...register("state")} />
+            <Input.Field
+              placeholder="UF*"
+              maxLength={2}
+              {...register("state")}
+            />
           </Input.Prefix>
         </div>
 
-        {/* Linha 5: Complemento e botão */}
         <div className="grid md:grid-cols-2 gap-4">
           <Input.Prefix>
             <Input.Field placeholder="Referência" {...register("complement")} />
