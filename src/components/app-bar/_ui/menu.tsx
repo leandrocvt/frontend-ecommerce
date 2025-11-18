@@ -179,7 +179,7 @@ export function Menu() {
 
               {data?.role === "ROLE_ADMIN" && (
                 <button
-                  onClick={() => handleNavigate("/admin")}
+                  onClick={() => handleNavigate("/admin/dashboard")}
                   className="block w-full text-black/50 text-left hover:text-black"
                 >
                   Painel administrativo

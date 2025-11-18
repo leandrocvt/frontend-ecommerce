@@ -112,7 +112,7 @@ export function UserMenu({ onLogin }: UserMenuProps) {
 
         {isLoggedIn && data?.role === "ROLE_ADMIN" && (
           <DropdownMenuItem
-            onClick={() => router.push("/admin")}
+            onClick={() => router.push("/admin/dashboard")}
             className="flex items-center gap-2 text-black hover:bg-gray-100 cursor-pointer"
           >
             <Monitor color="black" />

@@ -12,7 +12,7 @@ export enum RouteGroup {
 }
 
 export const HOME_BY_ROLE: Record<UserRole, string> = {
-  [UserRole.ADMIN]: "/admin",
+  [UserRole.ADMIN]: "/admin/dashboard",
   [UserRole.CLIENT]: "/",
   [UserRole.UNKNOWN]: "/",
 };
