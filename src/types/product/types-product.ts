@@ -1,3 +1,5 @@
+import { ProductSort } from "./types-product-sort";
+
 export interface ProductItem {
   id: number;
   name: string;
@@ -20,7 +22,7 @@ export interface ProductFilters {
   minPrice?: number;
   maxPrice?: number;
   categoryId?: number;
-  sort?: string;
+  sort?: ProductSort;
   page?: number;
   pageSize?: number;
 }

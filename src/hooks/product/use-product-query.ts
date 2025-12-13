@@ -8,9 +8,7 @@ export function useProductsQuery(filters: ProductFilters) {
   return useQuery<ProductsPagination>({
     queryKey: ["products", filters],
     queryFn: () => getProducts(filters),
-
     placeholderData: (prev) => prev,
-
     refetchOnWindowFocus: false,
   });
 }

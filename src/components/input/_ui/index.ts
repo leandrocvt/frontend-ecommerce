@@ -8,3 +8,4 @@ export * from './phone-field';
 export * from './cep-field';
 export * from './uf-field';
 export * from './cpf-cnpj-field';
+export * from './search-field';
