@@ -13,24 +13,35 @@ import {
 import { ProductSearch } from "@/components/product-search";
 import { ProductSort } from "@/components/product-sort";
 import { ProductSort as ProductSortType } from "@/types/product";
+import { ProductFiltersSheet } from "@/components/product-filters";
 
 export default function ProductsPage() {
   const [page, setPage] = useState(0);
-  const [name, setName] = useState<string | undefined>(undefined);
+  const [name, setName] = useState<string | undefined>();
   const [sort, setSort] = useState<ProductSortType>("relevance");
+
+  const [categoryId, setCategoryId] = useState<number | undefined>();
+  const [size, setSize] = useState<string | undefined>();
+  const [minPrice, setMinPrice] = useState<number | undefined>();
+  const [maxPrice, setMaxPrice] = useState<number | undefined>();
 
   const { data, isLoading } = useProductsQuery({
     page,
     pageSize: 12,
     name,
     sort,
+    categoryId,
+    size,
+    minPrice,
+    maxPrice,
   });
 
   return (
-    <div>
+    <div className="space-y-4">
       <h1 className="text-xl font-medium">Todos os produtos</h1>
 
-      <div className="flex flex-col sm:flex-row gap-4 my-5 justify-between">
+      {/* TOP BAR */}
+      <div className="flex flex-col sm:flex-row gap-4 justify-between">
         <ProductSearch
           onSearch={(value) => {
             setPage(0);
@@ -38,17 +49,40 @@ export default function ProductsPage() {
           }}
         />
 
-        <ProductSort
-          value={sort}
-          onChange={(value) => {
-            setPage(0);
-            setSort(value);
-          }}
-        />
+        <div className="flex gap-2">
+          <ProductSort
+            value={sort}
+            onChange={(value) => {
+              setPage(0);
+              setSort(value);
+            }}
+          />
+
+          <ProductFiltersSheet
+            categoryId={categoryId}
+            size={size}
+            minPrice={minPrice}
+            maxPrice={maxPrice}
+            onCategoryChange={(value) => {
+              setPage(0);
+              setCategoryId(value);
+            }}
+            onSizeChange={(value) => {
+              setPage(0);
+              setSize(value);
+            }}
+            onPriceChange={(min, max) => {
+              setPage(0);
+              setMinPrice(min);
+              setMaxPrice(max);
+            }}
+          />
+        </div>
       </div>
 
       {isLoading && <p className="text-sm">Carregando...</p>}
 
+      {/* PRODUCTS GRID */}
       <div
         className="
           grid gap-5
@@ -60,10 +94,15 @@ export default function ProductsPage() {
         "
       >
         {data?.content.map((product) => (
-          <ProductCard key={product.id} product={product} variant="admin" />
+          <ProductCard
+            key={product.id}
+            product={product}
+            variant="admin"
+          />
         ))}
       </div>
 
+      {/* PAGINATION */}
       {data && (
         <Pagination className="mt-6">
           <PaginationContent>
@@ -78,7 +117,9 @@ export default function ProductsPage() {
               <PaginationNext
                 className="cursor-pointer"
                 onClick={() =>
-                  setPage((p) => (p + 1 < data.totalPages ? p + 1 : p))
+                  setPage((p) =>
+                    p + 1 < data.totalPages ? p + 1 : p
+                  )
                 }
               />
             </PaginationItem>
