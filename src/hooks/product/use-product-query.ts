@@ -1,3 +1,4 @@
+// use-product-query.ts
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
@@ -9,6 +10,6 @@ export function useProductsQuery(filters: ProductFilters) {
     queryKey: ["products", filters],
     queryFn: () => getProducts(filters),
     placeholderData: (prev) => prev,
-    refetchOnWindowFocus: false,
+    staleTime: 1000 * 60, 
   });
 }

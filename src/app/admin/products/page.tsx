@@ -1,6 +1,7 @@
+// page.tsx
 "use client";
 
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useProductsQuery } from "@/hooks/product/use-product-query";
 import { ProductCard } from "@/components/product-card";
 import {
@@ -9,6 +10,7 @@ import {
   PaginationItem,
   PaginationNext,
   PaginationPrevious,
+  PaginationLink,
 } from "@/components/ui/pagination";
 import { ProductSearch } from "@/components/product-search";
 import { ProductSort } from "@/components/product-sort";
@@ -25,38 +27,41 @@ export default function ProductsPage() {
   const [minPrice, setMinPrice] = useState<number | undefined>();
   const [maxPrice, setMaxPrice] = useState<number | undefined>();
 
-  const { data, isLoading } = useProductsQuery({
-    page,
-    pageSize: 12,
-    name,
-    sort,
-    categoryId,
-    size,
-    minPrice,
-    maxPrice,
-  });
+  const handleSearch = useCallback((value?: string) => {
+    setPage(0);
+    setName(value);
+  }, []);
+
+  const handleSortChange = useCallback((value: ProductSortType) => {
+    setPage(0);
+    setSort(value);
+  }, []);
+
+  const filters = useMemo(
+    () => ({
+      page,
+      pageSize: 12,
+      name,
+      sort,
+      categoryId,
+      size,
+      minPrice,
+      maxPrice,
+    }),
+    [page, name, sort, categoryId, size, minPrice, maxPrice]
+  );
+
+  const { data, isLoading } = useProductsQuery(filters);
 
   return (
     <div className="space-y-4">
       <h1 className="text-xl font-medium">Todos os produtos</h1>
 
-      {/* TOP BAR */}
       <div className="flex flex-col sm:flex-row gap-4 justify-between">
-        <ProductSearch
-          onSearch={(value) => {
-            setPage(0);
-            setName(value);
-          }}
-        />
+        <ProductSearch onSearch={handleSearch} />
 
         <div className="flex gap-2">
-          <ProductSort
-            value={sort}
-            onChange={(value) => {
-              setPage(0);
-              setSort(value);
-            }}
-          />
+          <ProductSort value={sort} onChange={handleSortChange} />
 
           <ProductFiltersSheet
             categoryId={categoryId}
@@ -82,45 +87,44 @@ export default function ProductsPage() {
 
       {isLoading && <p className="text-sm">Carregando...</p>}
 
-      {/* PRODUCTS GRID */}
-      <div
-        className="
-          grid gap-5
-          grid-cols-1
-          sm:grid-cols-2
-          lg:grid-cols-3
-          xl:grid-cols-4
-          2xl:grid-cols-6
-        "
-      >
+      <div className="grid gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6">
         {data?.content.map((product) => (
-          <ProductCard
-            key={product.id}
-            product={product}
-            variant="admin"
-          />
+          <ProductCard key={product.id} product={product} variant="admin" />
         ))}
       </div>
 
-      {/* PAGINATION */}
-      {data && (
+      {data && data.totalPages > 1 && (
         <Pagination className="mt-6">
           <PaginationContent>
             <PaginationItem>
               <PaginationPrevious
-                className="cursor-pointer"
-                onClick={() => setPage((p) => Math.max(p - 1, 0))}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setPage((p) => Math.max(p - 1, 0));
+                }}
               />
             </PaginationItem>
 
+            {Array.from({ length: data.totalPages }).map((_, index) => (
+              <PaginationItem key={index}>
+                <PaginationLink
+                  isActive={page === index}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setPage(index);
+                  }}
+                >
+                  {index + 1}
+                </PaginationLink>
+              </PaginationItem>
+            ))}
+
             <PaginationItem>
               <PaginationNext
-                className="cursor-pointer"
-                onClick={() =>
-                  setPage((p) =>
-                    p + 1 < data.totalPages ? p + 1 : p
-                  )
-                }
+                onClick={(e) => {
+                  e.preventDefault();
+                  setPage((p) => (p + 1 < data.totalPages ? p + 1 : p));
+                }}
               />
             </PaginationItem>
           </PaginationContent>

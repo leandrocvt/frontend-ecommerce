@@ -22,7 +22,7 @@ export interface ProductFilters {
   minPrice?: number;
   maxPrice?: number;
   categoryId?: number;
-  sort?: string;
+  sort?: ProductSort;
   page?: number;
   pageSize?: number;
 }

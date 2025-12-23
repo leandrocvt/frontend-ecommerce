@@ -27,7 +27,7 @@ function PaginationContent({
   return (
     <ul
       data-slot="pagination-content"
-      className={cn("flex flex-row items-center gap-1", className)}
+      className={cn("flex flex-row items-center gap-1 cursor-pointer", className)}
       {...props}
     />
   )
@@ -40,7 +40,8 @@ function PaginationItem({ ...props }: React.ComponentProps<"li">) {
 type PaginationLinkProps = {
   isActive?: boolean
 } & Pick<React.ComponentProps<typeof Button>, "size"> &
-  React.ComponentProps<"a">
+  React.ComponentProps<"button">
+
 
 function PaginationLink({
   className,
@@ -49,11 +50,12 @@ function PaginationLink({
   ...props
 }: PaginationLinkProps) {
   return (
-    <a
+    <button
+      type="button"
       aria-current={isActive ? "page" : undefined}
       data-slot="pagination-link"
       data-active={isActive}
-      className={cn(
+      className={cn("cursor-pointer",
         buttonVariants({
           variant: isActive ? "outline" : "ghost",
           size,
@@ -64,6 +66,7 @@ function PaginationLink({
     />
   )
 }
+
 
 function PaginationPrevious({
   className,

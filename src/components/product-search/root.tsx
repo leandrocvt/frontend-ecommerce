@@ -1,6 +1,7 @@
+// product-search.tsx
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Search } from "lucide-react";
 import { Prefix, Root, SearchField } from "@/components/input/_ui";
 
@@ -10,14 +11,20 @@ interface ProductSearchProps {
 
 export function ProductSearch({ onSearch }: ProductSearchProps) {
   const [value, setValue] = useState("");
+  const isFirstRender = useRef(true);
 
   useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+
     const timeout = setTimeout(() => {
       onSearch(value.trim() || undefined);
     }, 300);
 
     return () => clearTimeout(timeout);
-  }, [value, onSearch]);
+  }, [value, onSearch]); 
 
   return (
     <Root className="w-full sm:max-w-sm h-11">

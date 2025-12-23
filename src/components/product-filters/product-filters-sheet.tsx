@@ -46,9 +46,7 @@ export function ProductFiltersSheet(props: ProductFiltersSheetProps) {
             <SheetTitle className="text-lg font-medium">Filtros</SheetTitle>
 
             <SheetClose asChild>
-              <Button variant="ghost" size="icon" className="cursor-pointer">
-                <X className="h-4 w-4" />
-              </Button>
+              <X className="h-4 w-4 cursor-pointer" />
             </SheetClose>
           </div>
         </SheetHeader>
